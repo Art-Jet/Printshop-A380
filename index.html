@@ -1,98 +1,42 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="de">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>A380 AR Viewer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Airbus A380 AR</title>
 
-  <!-- model-viewer -->
-  <script type="module"
-    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
-  </script>
+  <!-- model-viewer Bibliothek von Google -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
   <style>
     body {
       margin: 0;
-      overflow: hidden;
       font-family: Arial, sans-serif;
-    }
-
-    model-viewer {
-      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       height: 100vh;
-      background-color: #ffffff;
+      background: #f4f4f4;
     }
-
-    #ar-button {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      padding: 14px 20px;
-      font-size: 16px;
-      background: black;
-      color: white;
-      border-radius: 10px;
-      border: none;
-    }
-
-    #error {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: red;
-      color: white;
-      padding: 10px;
-      display: none;
+    model-viewer {
+      width: 100%;
+      max-width: 600px;
+      height: 80vh;
     }
   </style>
 </head>
-
 <body>
 
-<div id="error">❌ Modell konnte nicht geladen werden</div>
-
 <model-viewer
-  id="viewer"
-  src="./A380.glb"
-  ios-src="./A380.usdz"
-  alt="A380 Modell"
-
-  ar
-  ar-modes="scene-viewer webxr quick-look"
-
-  camera-controls
-  auto-rotate
-
-  scale="0.05 0.05 0.05"
-
-  style="width:100vw; height:100vh;">
+    src="A380.glb"
+    ios-src="A380.usdz"
+    alt="Airbus A380 3D Modell"
+    ar
+    ar-modes="webxr quick-look"
+    camera-controls
+    auto-rotate
+    background-color="#ffffff">
 </model-viewer>
-
-<button id="ar-button">AR starten</button>
-
-<script>
-  const viewer = document.getElementById("viewer");
-  const btn = document.getElementById("ar-button");
-  const errorBox = document.getElementById("error");
-
-  // AR Button
-  btn.addEventListener("click", () => {
-    viewer.activateAR();
-  });
-
-  // Fehler erkennen (z.B. wenn GLB nicht lädt)
-  viewer.addEventListener("error", (e) => {
-    console.log("Model Fehler:", e);
-    errorBox.style.display = "block";
-  });
-
-  // Debug: prüfen ob Modell geladen wurde
-  viewer.addEventListener("load", () => {
-    console.log("Modell erfolgreich geladen");
-  });
-</script>
 
 </body>
 </html>
