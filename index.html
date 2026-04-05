@@ -3,9 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>3D Model Viewer</title>
 
-  <!-- Model Viewer -->
   <script type="module"
     src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
   </script>
@@ -13,8 +11,6 @@
   <style>
     body {
       margin: 0;
-      overflow: hidden;
-      background-color: #ffffff;
     }
 
     model-viewer {
@@ -22,13 +18,12 @@
       height: 100vh;
     }
 
-    #ar-button {
+    #fallback-ar {
       position: absolute;
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
       padding: 12px 18px;
-      font-size: 16px;
       background: black;
       color: white;
       border-radius: 10px;
@@ -39,30 +34,25 @@
 
 <body>
 
-  <model-viewer
-    src="./A380.glb"
-    ios-src="./A380.usdz"
-    alt="A380 Model"
+<model-viewer
+  id="viewer"
+  src="./A380.glb"
+  ios-src="./A380.usdz"
+  ar
+  ar-modes="scene-viewer webxr quick-look"
+  camera-controls
+  auto-rotate
+  scale="0.1 0.1 0.1">
 
-    ar
-    ar-modes="scene-viewer webxr quick-look"
+  <!-- Original AR Button -->
+  <button slot="ar-button">AR starten</button>
 
-    camera-controls
-    auto-rotate
+</model-viewer>
 
-    <!-- 🔥 WICHTIG: AR Zoom Fix -->
-    scale="0.01 0.01 0.01"
-
-    <!-- Nur für normalen Viewer (nicht AR auf iPhone) -->
-    camera-orbit="0deg 75deg 120%"
-
-    shadow-intensity="1">
-
-    <button slot="ar-button" id="ar-button">
-      AR starten
-    </button>
-
-  </model-viewer>
+<!-- Fallback Button -->
+<button id="fallback-ar" onclick="document.getElementById('viewer').activateAR()">
+  AR starten
+</button>
 
 </body>
 </html>
