@@ -1,37 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A380 AR Viewer</title>
+
+  <!-- model-viewer -->
+  <script type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+    }
+
+    model-viewer {
+      width: 100vw;
+      height: 100vh;
+      background-color: #ffffff;
+    }
+
+    #ar-button {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 14px 20px;
+      font-size: 16px;
+      background: black;
+      color: white;
+      border-radius: 10px;
+      border: none;
+    }
+
+    #error {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: red;
+      color: white;
+      padding: 10px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<div id="error">❌ Modell konnte nicht geladen werden</div>
+
 <model-viewer
   id="viewer"
   src="./A380.glb"
   ios-src="./A380.usdz"
+  alt="A380 Modell"
+
   ar
   ar-modes="scene-viewer webxr quick-look"
+
   camera-controls
   auto-rotate
-  scale="0.005 0.005 0.005"
+
+  scale="0.05 0.05 0.05"
+
   style="width:100vw; height:100vh;">
 </model-viewer>
 
-<button id="ar-btn">AR starten</button>
+<button id="ar-button">AR starten</button>
 
 <script>
-  const btn = document.getElementById("ar-btn");
   const viewer = document.getElementById("viewer");
+  const btn = document.getElementById("ar-button");
+  const errorBox = document.getElementById("error");
 
+  // AR Button
   btn.addEventListener("click", () => {
     viewer.activateAR();
   });
+
+  // Fehler erkennen (z.B. wenn GLB nicht lädt)
+  viewer.addEventListener("error", (e) => {
+    console.log("Model Fehler:", e);
+    errorBox.style.display = "block";
+  });
+
+  // Debug: prüfen ob Modell geladen wurde
+  viewer.addEventListener("load", () => {
+    console.log("Modell erfolgreich geladen");
+  });
 </script>
 
-<style>
-  #ar-btn {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 14px 20px;
-    font-size: 16px;
-    background: black;
-    color: white;
-    border-radius: 10px;
-    border: none;
-  }
-</style>
+</body>
+</html>
